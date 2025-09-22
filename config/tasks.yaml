@@ -1,0 +1,68 @@
+
+code_execution_task:
+  description: >
+    Based on the data profile, perform comprehensive analysis and visualization of {file_path}.
+    Your tasks:
+      1. FIRST, configure matplotlib to use non-interactive backend:
+         ```python
+         import matplotlib
+         matplotlib.use('Agg')  # Use non-interactive backend
+         import matplotlib.pyplot as plt
+         import pandas as pd
+         ```
+      2. Load the dataset using proper path handling:
+         ```python
+         import os
+         file_path = r'{file_path}'  # Use raw string to handle Windows paths
+         df = pd.read_csv(file_path)
+         print("Dataset loaded successfully")
+         print(f"Shape: {{df.shape}}")
+         ```
+      3. Perform exploratory data analysis and create 3-5 meaningful visualizations:
+         - Distribution plots for key numeric variables
+         - Correlation heatmap if applicable
+         - Categorical variable analysis
+         - Time series plots if date columns exist
+         - Any other relevant visualizations
+      4. IMPORTANT: Save EVERY plot to outputs/charts/ directory:
+         ```python
+         from datetime import datetime
+
+         # After creating each plot:
+         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+         chart_name = "distribution"  # Use descriptive names
+         filename = 'outputs/charts/' + chart_name + '_' + timestamp + '.png'
+         plt.savefig(filename, dpi=100, bbox_inches='tight')
+         plt.close()  # Close the figure to free memory, DO NOT use plt.show()
+         ```
+      5. Perform statistical analysis based on the data type
+      6. Store analysis results and chart paths in `result` variable
+      Never use an arbitrary or random dataset. Use the dataset in the path: {file_path}
+
+  expected_output: >
+    Comprehensive analysis results including:
+      - Statistical findings and insights
+      - List of saved chart file paths
+      - Key patterns and relationships discovered
+      - Recommendations based on the analysis
+  agent: code_executor
+
+report_writing_task:
+  description: >
+    Create a professional markdown report synthesizing all findings from profiling and analysis.
+    Include:
+      1. Executive Summary
+      2. Data Overview (from profiling task)
+      3. Analysis Methodology
+      4. Key Findings with statistical support
+      5. Visualizations (reference saved charts using relative paths)
+      6. Conclusions and Recommendations
+    
+    Save the report as: outputs/reports/data_analysis_report_[timestamp].md
+    Use markdown formatting with headers, bullet points, and tables.
+    Reference charts using: ![Description](../charts/chart_name.png)
+
+  expected_output: >
+    A complete markdown report saved to outputs/reports/ with timestamp,
+    containing all analysis findings, embedded visualizations, and actionable insights
+  agent: report_writer
