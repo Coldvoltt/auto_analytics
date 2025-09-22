@@ -13,7 +13,7 @@ def run():
     data_path = os.path.join(current_dir, 'data', 'data.csv')
 
     inputs = {
-        'file_path': data_path  # Using absolute path to the CSV file       
+        'file_path': data_path  
     }
     
     crew = AnalyticsCrew()

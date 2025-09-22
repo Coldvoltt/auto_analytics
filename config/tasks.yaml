@@ -1,4 +1,3 @@
-
 code_execution_task:
   description: >
     Based on the data profile, perform comprehensive analysis and visualization of {file_path}.
@@ -26,12 +25,8 @@ code_execution_task:
          - Any other relevant visualizations
       4. IMPORTANT: Save EVERY plot to outputs/charts/ directory:
          ```python
-         from datetime import datetime
-
-         # After creating each plot:
-         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
          chart_name = "distribution"  # Use descriptive names
-         filename = 'outputs/charts/' + chart_name + '_' + timestamp + '.png'
+         filename = 'outputs/charts/'+chart_name+'.png'
          plt.savefig(filename, dpi=100, bbox_inches='tight')
          plt.close()  # Close the figure to free memory, DO NOT use plt.show()
          ```
@@ -42,7 +37,7 @@ code_execution_task:
   expected_output: >
     Comprehensive analysis results including:
       - Statistical findings and insights
-      - List of saved chart file paths
+      - List of saved chart_name
       - Key patterns and relationships discovered
       - Recommendations based on the analysis
   agent: code_executor
@@ -57,12 +52,14 @@ report_writing_task:
       4. Key Findings with statistical support
       5. Visualizations (reference saved charts using relative paths)
       6. Conclusions and Recommendations
-    
+
     Save the report as: outputs/reports/data_analysis_report_[timestamp].md
     Use markdown formatting with headers, bullet points, and tables.
-    Reference charts using: ![Description](../charts/chart_name.png)
+    Ensure to get the list of saved chart file paths from the code_executor agent.
+    Reference charts using exactly this path structure: ![Description](../charts/chart_name.png)
 
   expected_output: >
-    A complete markdown report saved to outputs/reports/ with timestamp,
-    containing all analysis findings, embedded visualizations, and actionable insights
+    A complete markdown report saved to outputs/reports,containing a chapter 4 kind of analysis report and
+    findings, embedded visualizations of all charts or plots obtained from the code_execution_task, 
+    and actionable insights
   agent: report_writer

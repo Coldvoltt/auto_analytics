@@ -101,8 +101,7 @@ class AnalyticsCrew:
     def code_executorTask(self) -> Task:
         return Task(
             config=self.tasks_config["code_execution_task"],
-            agent=self.code_executor(),
-            # context=[self.dataContextTask()],
+            agent=self.code_executor()
         )
 
     @task
